@@ -3,27 +3,27 @@
 
 from copy import deepcopy
 
-from data import import_data, import_cluster
+from data import import_clusters
+from intersection import FixedIntersection, FCFSIntersection
 import plot
-from fcfs_intersection import FCFSIntersection
-from simple_intersection import SimpleIntersection
 
 
 def main():
+    """Tests different algorithm for the same set of data"""
     inputs = [[], []]
-    inputs[0] = import_data('inputs/input1.csv')
-    inputs[1] = import_data('inputs/input2.csv')
+    inputs[0] = import_clusters('inputs/input1.csv')
+    inputs[1] = import_clusters('inputs/input2.csv')
     intersec = FCFSIntersection(deepcopy(inputs))
     intersec.run()
-    print(intersec.outputs)
+    intersec.print_outputs()
     plot.plot(inputs, intersec.outputs)
 
-    inputs[0] = import_cluster('inputs/input1.csv')
-    inputs[1] = import_cluster('inputs/input2.csv')
-    intersec = SimpleIntersection(deepcopy(inputs))
+    inputs[0] = import_clusters('inputs/input1.csv')
+    inputs[1] = import_clusters('inputs/input2.csv')
+    intersec = FixedIntersection(deepcopy(inputs))
     intersec.run()
     intersec.print_outputs()
-    plot.newplot(inputs, intersec.outputs)
+    plot.plot(inputs, intersec.outputs)
 
 
 if __name__ == "__main__":

@@ -27,9 +27,11 @@ class Cluster:
             self.wait_time = data[3]
 
     def duration(self):
+        """Return the duration of a cluster"""
         return self.out_time - self.in_time
 
     def tolist(self):
+        """Return this cluster as a list"""
         return [
             self.cars,
             self.in_time,
@@ -55,7 +57,7 @@ def import_data(file):
     return data
 
 
-def import_cluster(file):
+def import_clusters(file):
     """Import data as cluster"""
     data = import_data(file)
     clusters = []
@@ -68,4 +70,4 @@ def import_cluster(file):
 
 if __name__ == "__main__":
     print(import_data('test.csv'))
-    print(import_cluster('test.csv'))
+    print(import_clusters('test.csv'))
