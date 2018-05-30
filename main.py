@@ -3,9 +3,10 @@
 
 from copy import deepcopy
 
-from data import import_data
+from data import import_data, import_cluster
 import plot
 from fcfs_intersection import FCFSIntersection
+from simple_intersection import SimpleIntersection
 
 
 def main():
@@ -16,6 +17,13 @@ def main():
     intersec.run()
     print(intersec.outputs)
     plot.plot(inputs, intersec.outputs)
+
+    inputs[0] = import_cluster('inputs/input1.csv')
+    inputs[1] = import_cluster('inputs/input2.csv')
+    intersec = SimpleIntersection(deepcopy(inputs))
+    intersec.run()
+    intersec.print_outputs()
+    plot.newplot(inputs, intersec.outputs)
 
 
 if __name__ == "__main__":
