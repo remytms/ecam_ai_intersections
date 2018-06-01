@@ -174,18 +174,15 @@ class FCFSIntersection(Intersection):
 
     def cross(self):
         cluster, way = self.select_next_cluster()
+        if not self.open[way]:
+            self.switch_open()
+            self.cur_time += self.yellow_delay
         if self.cur_time > cluster.in_time:
             waiting_time = self.cur_time - cluster.in_time
-            cluster.in_time += waiting_time
-            cluster.out_time += waiting_time
+            cluster.in_time += waiting_time + self.startup_lost_time
+            cluster.out_time += waiting_time + self.startup_lost_time
             cluster.wait_time += waiting_time
-        if self.open[way]:
-            self.outputs[way].append(cluster)
-        else:
-            self.switch_open()
-            cluster.in_time += self.yellow_delay + self.startup_lost_time
-            cluster.out_time += self.yellow_delay + self.startup_lost_time
-            self.outputs[way].append(cluster)
+        self.outputs[way].append(cluster)
         self.cur_time = cluster.out_time
 
 
