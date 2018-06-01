@@ -70,7 +70,7 @@ class FixedIntersection(Intersection):
     """
 
     def __init__(self, inputs=None, yellow_delay=10,
-                 startup_lost_time=5, total_open_duration=60, percent=.5):
+                 startup_lost_time=5, total_open_duration=120, percent=.5):
         super().__init__(inputs, yellow_delay, startup_lost_time)
         self.total_open_duration = total_open_duration
         # init
@@ -84,16 +84,22 @@ class FixedIntersection(Intersection):
         if not self.inputs[self.idx_open()]:
             return choosen_cluster, choosen_input
         next_cluster = self.inputs[self.idx_open()][0]
-        if next_cluster.in_time < (self.cur_time
-                                   + self.time_before_switch()):
-            if next_cluster.duration() <= self.time_before_switch():
+        next_switching_time = self.cur_time + self.time_before_switch()
+        if next_cluster.in_time < next_switching_time:
+            if (next_cluster.duration() <= self.time_before_switch()
+                and next_cluster.duration() <= (next_switching_time
+                                                - next_cluster.in_time)):
                 choosen_cluster = Cluster(next_cluster.tolist())
                 del self.inputs[self.idx_open()][0]
             else:
                 choosen_cluster = Cluster()
                 choosen_cluster.in_time = next_cluster.in_time
+                time_before_switch = min(
+                    self.time_before_switch(),
+                    next_switching_time - next_cluster.in_time
+                )
                 choosen_cluster.out_time = (next_cluster.in_time
-                                            + self.time_before_switch())
+                                            + time_before_switch)
                 choosen_cluster.cars = floor(
                     choosen_cluster.duration() / next_cluster.duration()
                     * next_cluster.cars
@@ -109,21 +115,25 @@ class FixedIntersection(Intersection):
     def cross(self):
         cluster, way = self.select_next_cluster()
         if cluster is not None:
+            if cluster.duration() > (self.open_duration[self.idx_open()]
+                                     - self.open_cur_duration):
+                raise ValueError(
+                    "Cluster is too long for the open duration"
+                )
             if self.cur_time > cluster.in_time:
                 waiting_time = self.cur_time - cluster.in_time
-                cluster.in_time += waiting_time
-                cluster.out_time += waiting_time
+                cluster.in_time += waiting_time + self.startup_lost_time
+                cluster.out_time += waiting_time + self.startup_lost_time
                 cluster.wait_time += waiting_time
             self.cur_time += cluster.duration()
             self.open_cur_duration += cluster.duration()
             self.outputs[way].append(cluster)
         else:
-            self.cur_time += (self.open_duration[self.idx_open()]
-                              - self.open_cur_duration)
-            self.open_cur_duration = self.open_duration[self.idx_open()]
+            self.cur_time += self.time_before_switch()
+            self.open_cur_duration += self.time_before_switch()
         if self.open_cur_duration >= self.open_duration[self.idx_open()]:
             self.switch_open()
-            self.cur_time += self.yellow_delay + self.startup_lost_time
+            self.cur_time += self.yellow_delay
             self.open_cur_duration = 0
 
     def idx_open(self):
