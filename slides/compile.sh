@@ -1,0 +1,10 @@
+file="SlideIA_Labs"
+xelatex "$file.tex"
+xelatex "$file.tex"
+xelatex "$file.tex"
+
+rm "$file.aux"
+rm "$file.nav"
+rm "$file.out"
+rm "$file.toc"
+rm "$file.snm"
