@@ -27,9 +27,11 @@
   \titlepage
 \end{frame}
 
+
 \begin{frame}{Table of Contents}
   \tableofcontents
 \end{frame}
+
 
 \section{Context}
 \begin{frame}{Context}
@@ -48,6 +50,7 @@
   \item Optimizes movement of the observable traffic
  \end{itemize}
 \end{frame}
+
 
 \begin{frame}{Article Parameters}
  \begin{columns}
@@ -69,6 +72,7 @@
  $Cluster = (density, arrival, departure)$
 \end{frame}
 
+
 \section{Objective}
 \begin{frame}{Objective}
  \begin{itemize}
@@ -79,6 +83,7 @@
  \end{itemize}
 \end{frame}
 
+
 \begin{frame}{Which approach to use ?}
  \begin{block}{No software available in the article}
  $\rightarrow$ Simulate a little part of the network and observe the performances of different algorithms
@@ -86,12 +91,13 @@
  
  \begin{block}{Questions}
   \begin{itemize}
-   \item Which parameter do we need ?
+   \item Which parameters do we need ?
    \item Where do we get information ?
    \item Which size of grid ?
   \end{itemize} 
  \end{block}
 \end{frame}
+
 
 \section{Simplifications}
 \begin{frame}{The agent}
@@ -131,6 +137,7 @@
  $Cluster = (vehicules, arrival, departure, waiting\_time)$
 \end{frame}
 
+
 \section{Algorithms}
 \begin{frame}{First Test : Fixed Time Intersection}
  \begin{itemize}
@@ -143,35 +150,38 @@
  \end{block}
 \end{frame}
 
+
 \begin{frame}{Second Test : FCFS without Prehension Intersection}
  \begin{itemize}
-  \item First come first served
+  \item First came first served
   \item Do not cut a cluster
-  \item Change the ways when the cluster arrived
  \end{itemize}
  \begin{block}{Conclusion}
   $\rightarrow$ Able to cooperate\\
-  $\rightarrow$ Do not anticipate the arrival of cluster
+  $\rightarrow$ Find only local but not global optimum
  \end{block}
 \end{frame}
 
+
 \section{Perspectives}
 \begin{frame}{Perpectives}
-Implemant grid with several agents\vspace{0.5cm}
+Implement grid with several agents\vspace{0.5cm}
 
-Test others algorithms :
+Test other algorithms :
  \begin{itemize}
   \item FCFS with prehension
   \item Manage priorities in function of the total waiting time, the length of cluster, the prior vehicules,...
  \end{itemize}
  \vspace{0.5cm}
-Consider the global impact of the choices in the network, not only locally
+ Consider the global impact of the choices in the network, not only the local one
 \end{frame}
+
 
 \begin{frame}
 \centering \LARGE
   \emph{Any questions ?}
 \end{frame}
+
 
 \begin{frame}{References}
 %Name, Year, \emph{title}, \url{}
