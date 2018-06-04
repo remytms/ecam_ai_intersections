@@ -40,7 +40,7 @@ class Cluster:
         ]
 
     def __str__(self):
-        return "cars: %d, in: %d, out: %d, wait: %d" % (
+        return "{cars: %d, in: %d, out: %d, wait: %d}" % (
             self.cars, self.in_time, self.out_time, self.wait_time
         )
 
